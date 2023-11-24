@@ -1,6 +1,8 @@
 @base_url = http://localhost:8080
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDA4MTg0Nzh9.-fPRsI74IpU5c2OIVeV_hUaDwSYF4FQ0xI6Er4IuNaI
 POST {{base_url}}/todos
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
     "text":"test 1"

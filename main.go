@@ -5,6 +5,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
+	auth "github.com/benzt2h/gin-todo-api/auh"
 	"github.com/benzt2h/gin-todo-api/todo"
 )
 
@@ -22,6 +23,8 @@ func main() {
 	handler := todo.NewTodoHandler(db)
 
 	r.POST("/todos", handler.NewTask)
+
+	r.GET("/tokenz", auth.AccessToken)
 
 	r.Run(":8080")
 }
