@@ -20,11 +20,12 @@ func main() {
 
 	r := gin.Default()
 
-	handler := todo.NewTodoHandler(db)
+	r.GET("/tokenz", auth.AccessToken("==signature=="))
 
-	r.POST("/todos", handler.NewTask)
+	protected := r.Group("", auth.Protect([]byte("==signature==")))
 
-	r.GET("/tokenz", auth.AccessToken)
+	todoHandler := todo.NewTodoHandler(db)
+	protected.POST("/todos", todoHandler.NewTask)
 
 	r.Run(":8080")
 }
