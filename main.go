@@ -19,6 +19,11 @@ import (
 	"github.com/benzt2h/gin-todo-api/todo"
 )
 
+var (
+	buildcommit = "dev"
+	buildtime   = time.Now().String()
+)
+
 func main() {
 
 	err := godotenv.Load("local.env")
@@ -34,6 +39,12 @@ func main() {
 	db.AutoMigrate(&todo.Todo{})
 
 	r := gin.Default()
+	r.GET("/x", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"buildcommit": buildcommit,
+			"buildtime":   buildtime,
+		})
+	})
 
 	r.GET("/tokenz", auth.AccessToken(os.Getenv("SIGN")))
 

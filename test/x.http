@@ -1,2 +1,2 @@
 @base_url = http://localhost:8081
-Get {{base_url}}/tokenz
+Get {{base_url}}/x
