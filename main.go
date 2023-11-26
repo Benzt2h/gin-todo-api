@@ -25,6 +25,11 @@ var (
 )
 
 func main() {
+	_, errLiveFile := os.Create("/tmp/live")
+	if errLiveFile != nil {
+		log.Fatal(errLiveFile)
+	}
+	defer os.Remove("/tmp/live")
 
 	err := godotenv.Load("local.env")
 	if err != nil {
@@ -39,6 +44,9 @@ func main() {
 	db.AutoMigrate(&todo.Todo{})
 
 	r := gin.Default()
+	r.GET("/healthz", func(ctx *gin.Context) {
+		ctx.Status(200)
+	})
 	r.GET("/x", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
 			"buildcommit": buildcommit,
