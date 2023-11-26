@@ -1,6 +1,7 @@
 package todo
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,16 @@ func (th *TodoHandler) NewTask(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&todo); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
+		})
+		return
+	}
+
+	if todo.Title == "sleep" {
+		transactionID := ctx.Request.Header.Get("TransactionID")
+		aud, _ := ctx.Get("aud")
+		log.Println(transactionID, aud, "not allowed")
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "not allowed",
 		})
 		return
 	}
